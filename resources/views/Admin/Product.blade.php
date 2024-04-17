@@ -7,7 +7,7 @@
             <div class="container-fluid">
                 <div class="row mb-2">
                     <div class="col-sm-6">
-                        <h1>Stok Barang</h1>
+                        <h1>Product</h1>
                     </div>
                 </div>
             </div>
@@ -33,14 +33,14 @@
                                             <th>Nama Produk</th>
                                             <th>Harga</th>
                                             <th>Stok</th>
-                                            <th>Action</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach ($Product as $Products)
                                             <tr>
                                                 <td> {{ $Products->id }}</td>
-                                                <td> <img src="{{ asset('storage/cover/' . $Produks->gambar_produk) }}"
+                                                <td><img src="{{ asset('/storage/cover/' . $Products->img) }}"
                                                         alt=""></td>
                                                 <td> {{ $Products->name }}</td>
                                                 <td>{{ $Products->price }}</td>
@@ -82,25 +82,25 @@
                                                                     <label for="NamaProduk">Nama Produk</label>
                                                                     <input type="text" class="form-control"
                                                                         id="namaProduk" name="name"
-                                                                        value="{{ $Products->nama_produk }}">
+                                                                        value="{{ $Products->name }}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="Harga">Harga</label>
                                                                     <input type="number" class="form-control"
                                                                         id="harga" name="price"
-                                                                        value="{{ $Produks->harga }}">
+                                                                        value="{{ $Products->price }}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="GambarProduk">Gambar Produk</label>
                                                                     <input type="file" class="form-control"
-                                                                        id="gambar_produk" name="img"
-                                                                        value="{{ $Products->gambar_produk }}">
+                                                                        id="img" name="img"
+                                                                        value="{{ $Products->img }}">
                                                                 </div>
                                                                 <div class="form-group">
                                                                     <label for="Stok">Stok</label>
                                                                     <input type="number" class="form-control"
-                                                                        id="stok" name="stock"
-                                                                        value="{{ $Products->stok }}" disabled>
+                                                                        id="stock" name="stock"
+                                                                        value="{{ $Products->stock }}" disabled>
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <button type="button" class="btn btn-secondary"
@@ -206,17 +206,17 @@
                                             enctype="multipart/form-data" id="formTambahProduk">
                                             @csrf
                                             <div class="form-group">
-                                                <label for="nama_produk">Nama Produk</label>
+                                                <label for="name">Nama Produk</label>
                                                 <input type="text" class="form-control" id="nama_produk"
                                                     name="name">
                                             </div>
                                             <div class="form-group">
-                                                <label for="harga">Harga</label>
+                                                <label for="price">Harga</label>
                                                 <input type="text" class="form-control" id="harga"
                                                     name="price">
                                             </div>
                                             <div class="form-group">
-                                                <label for="gambar_produk">Gambar Produk</label>
+                                                <label for="img">Gambar Produk</label>
                                                 <input type="file" class="form-control" id="gambar_produk"
                                                     name="img">
                                             </div>

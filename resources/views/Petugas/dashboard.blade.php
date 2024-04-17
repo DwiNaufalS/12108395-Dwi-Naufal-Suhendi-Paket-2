@@ -7,7 +7,7 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1>Selamat datang {{ Auth::user()->name }}</h1>
+                    <h1>Selamat datang, <b>{{ Auth::user()->name }}</b></h1>
                 </div>
             </div>
         </div>

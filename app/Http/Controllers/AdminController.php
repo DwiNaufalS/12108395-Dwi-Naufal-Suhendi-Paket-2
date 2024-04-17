@@ -19,7 +19,8 @@ class AdminController extends Controller
 
     public function Penjualan()
     {
-        return view('admin.Penjualan');
+        $user = User::all();
+        return view('admin.Penjualan', compact('user'));
     }
 
     public function User()
@@ -113,7 +114,7 @@ class AdminController extends Controller
     {
         $Product_update = Product::find($id);
         $Product_update->name = $request->name;
-        $Product_update->harga = $request->harga;
+        $Product_update->price = $request->price;
         $img = $request->file('img');
 
         // Buat nama unik untuk file gambar
@@ -123,13 +124,13 @@ class AdminController extends Controller
         if (!Storage::exists('cover')) {
             Storage::makeDirectory('cover');
         }
-        $img->storeAs('public/cover', $imgName);
+        $imgName->storeAs('public/cover', $imgName);
 
-        $Produk_update->img = $imgName;
+        $Product_update->img = $imgName;
 
-        $Produk_update->save();
+        $Product_update->save();
 
-        return redirect()->route('Produk');
+        return redirect()->route('Product');
     }
 
     public function proses_UpdateStok(Request $request, $id)

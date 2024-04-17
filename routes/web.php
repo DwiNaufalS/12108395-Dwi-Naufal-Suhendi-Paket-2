@@ -30,7 +30,7 @@ Route::group(['middleware' => ['auth']], function () {
         Route::get('/admin/Penjualan', [AdminController::class, 'Penjualan'])->name('Penjualan');
         Route::post('proses_CreateUser', [AdminController::class, 'proses_CreateUser'])->name('proses_CreateUser');
         Route::get('/admin/Product', [AdminController::class, 'Product'])->name('Product');
-        Route::post('proses_TambahProduk', [AdminController::class, 'proses_TambahProduk'])->name('proses_TambahProduct');
+        Route::post('proses_TambahProduct', [AdminController::class, 'proses_TambahProduct'])->name('proses_TambahProduct');
         Route::put('/proses_EditProduct/{id}', [AdminController::class, 'proses_EditProduct'])->name('proses_EditProduct');
         Route::put('/proses_EditUser/{id}', [AdminController::class, 'proses_EditUser'])->name('proses_EditUser');
         Route::put('/proses_UpdateStok/{id}', [AdminController::class, 'proses_UpdateStok'])->name('proses_UpdateStok');
@@ -41,7 +41,10 @@ Route::group(['middleware' => ['auth']], function () {
     Route::group(['middleware' => ['Cek_login:petugas']], function () {
         Route::get('/petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
         Route::get('/petugas/PendataanBarang', [PetugasController::class, 'PendataanBarang'])->name('PendataanBarang');
-        Route::get('/petugas/StokBarang', [PetugasController::class, 'StokBarang'])->name('StokBarang');
+        Route::get('/petugas/Pembelian', [PetugasController::class, 'Pembelian'])->name('Pembelian');
+        Route::get('/petugas/form_customer', [PetugasController::class, 'form_customer'])->name('form_customer');
+        Route::get('/petugas/form_product', [PetugasController::class, 'form_product'])->name('form_product');
+        Route::post('/customers', [PetugasController::class, 'customers'])->name('customers');
         Route::resource('petugas', PetugasController::class);
     });
 });

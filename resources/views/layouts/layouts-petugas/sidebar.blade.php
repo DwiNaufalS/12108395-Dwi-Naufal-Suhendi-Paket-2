@@ -31,10 +31,10 @@
                     </a>
                 </li>
                 <li class="nav-item">
-                    <a href="StokBarang" class="nav-link">
+                    <a href="Pembelian" class="nav-link">
                         <i class="nav-icon fas fa-columns"></i>
                         <p>
-                            Stok Barang
+                            Pembelian
                         </p>
                     </a>
                 </li>
