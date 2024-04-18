@@ -1,13 +1,15 @@
 <?php
 
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\AdminController;
-use App\Http\Controllers\PetugasController;
+use App\Http\Controllers\PdfController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseController;
 
 /*
 |--------------------------------------------------------------------------
-| Web Routes
+| Web Routes        
 |--------------------------------------------------------------------------
 |
 | Here is where you can register web routes for your application. These
@@ -19,32 +21,42 @@ use App\Http\Controllers\PetugasController;
 Route::get('/', function () {
     return view('auth.login');
 });
-Route::get('/login', [AuthController::class, 'index'])->name('auth.login');
-Route::post('proses_login', [AuthController::class, 'proses_login'])->name('proses_login');
-Route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+
+route::get('/logout', [AuthController::class, 'logout'])->name('logout');
+route::get('/download', [PurchaseController::class, 'downloadExcel'])->name('downloadPurchaseExcel');
 
 Route::group(['middleware' => ['auth']], function () {
-    Route::group(['middleware' => ['Cek_login:admin']], function () {
-        Route::get('/admin/dashboard', [AdminController::class, 'index'])->name('admin.dashboard');
-        Route::get('/admin/User', [AdminController::class, 'User'])->name('User');
-        Route::get('/admin/Penjualan', [AdminController::class, 'Penjualan'])->name('Penjualan');
-        Route::post('proses_CreateUser', [AdminController::class, 'proses_CreateUser'])->name('proses_CreateUser');
-        Route::get('/admin/Product', [AdminController::class, 'Product'])->name('Product');
-        Route::post('proses_TambahProduct', [AdminController::class, 'proses_TambahProduct'])->name('proses_TambahProduct');
-        Route::put('/proses_EditProduct/{id}', [AdminController::class, 'proses_EditProduct'])->name('proses_EditProduct');
-        Route::put('/proses_EditUser/{id}', [AdminController::class, 'proses_EditUser'])->name('proses_EditUser');
-        Route::put('/proses_UpdateStok/{id}', [AdminController::class, 'proses_UpdateStok'])->name('proses_UpdateStok');
-        Route::delete('/proses_DeleteProduct/{id}', [AdminController::class, 'proses_DeleteProduct'])->name('proses_DeleteProduct');
-        Route::delete('/proses_DeleteUser/{id}', [AdminController::class, 'proses_DeleteUser'])->name('proses_DeleteUser');
-        Route::resource('admin', AdminController::class);
+    Route::group(['middleware' => ['isLogin:admin']], function () {
+        route::get('/product', [ProductController::class, 'index'])->name('pageProduct');
+        route::post('/product/add', [ProductController::class, 'store'])->name('createProduct');
+        route::delete('/product/delete/{id}', [ProductController::class, 'destroy'])->name('deleteProduct');
+        route::get('/product/edit/{id}', [ProductController::class, 'edit'])->name('editProduct');
+        route::put('/product/update/{id}', [ProductController::class, 'update'])->name('updateProduct');
+        route::get('/product/stock/{id}', [ProductController::class, 'pageStock'])->name('stockProduct');
+        route::post('/product/add/stock/{id}', [ProductController::class, 'updateStock'])->name('updateStock');
+
+        route::get('/dashboard', [AuthController::class, 'pageDashboard'])->name('pageDashboard');
+        route::get('/user', [AuthController::class, 'index'])->name('pageUser');
+        route::get('/admin', [AuthController::class, 'pageAdmin'])->name('pageAdmin');
+        
+        route::post('/user/add', [AuthController::class, 'store'])->name('createUser');
+        route::put('/user/edit/{id}', [AuthController::class, 'update'])->name('updateUser');
+        route::delete('/user/delete/{id}', [AuthController::class, 'destroy'])->name('deleteUser');
+        route::get('/purchase', [PurchaseController::class, 'index'])->name('pagePurchase');
+        
     });
-    Route::group(['middleware' => ['Cek_login:petugas']], function () {
-        Route::get('/petugas/dashboard', [PetugasController::class, 'index'])->name('petugas.dashboard');
-        Route::get('/petugas/PendataanBarang', [PetugasController::class, 'PendataanBarang'])->name('PendataanBarang');
-        Route::get('/petugas/Pembelian', [PetugasController::class, 'Pembelian'])->name('Pembelian');
-        Route::get('/petugas/form_customer', [PetugasController::class, 'form_customer'])->name('form_customer');
-        Route::get('/petugas/form_product', [PetugasController::class, 'form_product'])->name('form_product');
-        Route::post('/customers', [PetugasController::class, 'customers'])->name('customers');
-        Route::resource('petugas', PetugasController::class);
+    Route::group(['middleware' => ['isLogin:employee']], function () {
+        route::get('/employee', [AuthController::class, 'pageEmployee'])->name('pageEmployee');
+        route::post('/purchase/add', [PurchaseController::class, 'store'])->name('createPurchase');
+        route::get('/purchase_employee', [PurchaseController::class, 'pagePurchaseEmployee'])->name('pagePurchaseEmployee');
+        route::get('/product_employee', [ProductController::class, 'pageProductEmployee'])->name('pageProductEmployee');
+        route::get('/purchase/{id}/download-pdf', [PurchaseController::class, 'downloadPdf'])->name('generate-pdf');
+
+        // route::get('/cetak-purchase', [PurchaseController::class, 'CetakPDF'])->name('generatePDF');
     });
+});
+
+route::middleware('isGuest')->group(function () {
+    route::get('/login', [AuthController::class, 'pageLogin'])->name('login');
+    route::post('/login', [AuthController::class, 'postLogin'])->name('authLogin');
 });

@@ -7,9 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Customer extends Model
 {
-    protected $fillable = [
-        'name',
-        'address',
-        'no_hp',
-    ];
+    use HasFactory;
+
+    protected $table = 'customers';
+    protected $guarded = ['id'];
+
+    public function purchases()
+    {
+        return $this->hasMany(Purchase::class, 'customer_id');
+    }
 }

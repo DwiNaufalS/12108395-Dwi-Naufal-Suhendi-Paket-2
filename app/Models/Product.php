@@ -7,6 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    protected $table = 'products'; // Nama tabel dalam database
-    protected $fillable = ['name', 'price', 'stock', 'img'];
+    use HasFactory;
+    protected $table = 'products';
+    protected $guarded = ['id'];
+
+
+    public function purchases()
+    {
+        return $this->belongsToMany(Purchase::class, 'purchase_products')->withPivot('quantity');
+    }
+
+    
 }

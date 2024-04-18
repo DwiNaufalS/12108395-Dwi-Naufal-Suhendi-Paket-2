@@ -1,54 +1,60 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>KasirKU</title>
-
-    <link rel="stylesheet"
-        href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/fontawesome-free/css/all.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css') }}">
-
-    <link rel="stylesheet" href="{{ asset('adminlte/dist/css/adminlte.min.css?v=3.2.0') }}">
+    <title>Login</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link
+        href="
+        https://cdn.jsdelivr.net/npm/sweetalert2@11.10.8/dist/sweetalert2.min.css
+        "rel="stylesheet">
 </head>
 
-<body class="hold-transition login-page">
-    <div class="login-box">
+<body>
+    <div class="container-fluid mt-4">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card mx-auto">
+                    <div class="card-body">
+                        <h2 class="mb-4 text-center">Login</h2>
+                        @if (session('error-login'))
+                            <div class="alert alert-danger">
+                                <p>email atau Password Salah</p>
+                            </div>
+                        @endif
 
-        <div class="card card-outline card-primary">
-            <div class="card-header text-center">
-                <a class="h1">Kasir<b>KU</b></a>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('proses_login') }}" method="POST">
-                    @csrf
-                <div class="input-group mb-3">
-                    <input type="text" name="email" class="form-control" placeholder="email">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-user"></span>
-                        </div>
+                        <form action="{{ route('authLogin') }}" method="post">
+                            @if ($errors->any())
+                                <div class="alert alert-danger">
+                                    <ul>
+                                        @foreach ($errors->all() as $error)
+                                            <li>{{ $error }}</li>
+                                        @endforeach
+                                    </ul>
+                                </div>
+                            @endif
+                            @csrf
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" name="email" class="form-control" id="email">
+                            </div>
+                            <div class="mb-3">
+                                <label for="password" class="form-label">Password</label>
+                                <input type="password" class="form-control" name="password" id="password">
+                            </div>
+                            <button type="submit" class="btn btn-primary">Login</button>
+                        </form>
                     </div>
                 </div>
-                <div class="input-group mb-3">
-                    <input type="password" name="password" class="form-control" placeholder="Password">
-                    <div class="input-group-append">
-                        <div class="input-group-text">
-                            <span class="fas fa-lock"></span>
-                        </div>
-                    </div>
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Sign In</button>
-                </form>
             </div>
-
         </div>
-
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous">
+    </script>
 </body>
 
 </html>
